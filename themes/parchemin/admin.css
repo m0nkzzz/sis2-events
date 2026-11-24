@@ -18,9 +18,9 @@ body.theme-parchemin {
   --a-warn: #c6963f;
   --a-radius: 8px;
   --a-shadow: 0 16px 40px rgba(0, 0, 0, .45);
-  --a-font: 'Crimson Text', Georgia, serif;
-  --a-font-display: 'Cinzel', Georgia, serif;
-  --a-font-num: 'Cinzel', Georgia, serif;
+  --a-font: 'IM Fell English', Georgia, serif;
+  --a-font-display: 'IM Fell English SC', Georgia, serif;
+  --a-font-num: 'IM Fell English', Georgia, serif;
   font-size: 17px;
 }
 body.theme-parchemin .a-panel,
@@ -41,21 +41,22 @@ body.theme-parchemin .a-panel__title { color: #5e1111; }
 
 /* bandeau du haut, sur le bois */
 body.theme-parchemin .a-top { background: rgba(20, 12, 7, .88); border-bottom-color: rgba(198, 150, 63, .35); }
-body.theme-parchemin .a-top__title { color: #f0d9a8; font-family: 'Cinzel Decorative', 'Cinzel', serif; }
+body.theme-parchemin .a-top__title { color: #f0d9a8; font-family: 'IM Fell English', Georgia, serif; }
 body.theme-parchemin .a-top__kicker, body.theme-parchemin .a-top__updated { color: rgba(240, 217, 168, .6); }
 body.theme-parchemin .a-top__emblem { color: #e5c174; }
 body.theme-parchemin .a-top .a-btn { background: rgba(255, 240, 210, .06); border-color: rgba(198, 150, 63, .45); color: #f0d9a8; }
 body.theme-parchemin .a-top .a-btn:hover { border-color: #e5c174; background: rgba(255, 240, 210, .12); }
 body.theme-parchemin .a-top .a-btn--primary { background: #8b1e1e; border-color: #c6963f; color: #fff6e4; }
 
-body.theme-parchemin .a-gate__title { font-family: 'Cinzel Decorative', 'Cinzel', serif; color: #5e1111; }
+body.theme-parchemin .a-gate__title { font-family: 'IM Fell English', Georgia, serif; color: #5e1111; }
 body.theme-parchemin .a-gate__emblem { color: #8b1e1e; font-size: 3rem; }
 body.theme-parchemin .a-input { background: rgba(255, 250, 236, .7); }
 body.theme-parchemin .a-btn { background: rgba(255, 250, 236, .7); }
-body.theme-parchemin .a-btn--primary { background: #8b1e1e; color: #fff6e4; border-color: #c6963f; font-family: 'Cinzel', serif; }
+body.theme-parchemin .a-btn--primary { background: #8b1e1e; color: #fff6e4; border-color: #c6963f; font-family: 'IM Fell English SC', Georgia, serif; }
 body.theme-parchemin .a-quote { font-style: italic; border-left-color: #8b1e1e; background: rgba(255, 250, 236, .55); }
-body.theme-parchemin .a-table td:first-child .a-link { font-family: 'Great Vibes', cursive; font-weight: 400; font-size: 1.45rem; color: #5e1111; text-decoration: none; }
-body.theme-parchemin .a-detail__name { font-family: 'Great Vibes', cursive; font-weight: 400; font-size: 2.3rem; color: #5e1111; }
+body.theme-parchemin .a-table td:first-child .a-link { font-family: 'Pinyon Script', cursive; font-weight: 400; font-size: 1.45rem; color: #5e1111; text-decoration: none; }
+body.theme-parchemin .a-detail__name { font-family: 'Pinyon Script', cursive; font-weight: 400; font-size: 2.3rem; color: #5e1111; }
 body.theme-parchemin .a-tip { background: #2a1a10; color: #f3e5c8; border: 1px solid #c6963f; }
 body.theme-parchemin .a-empty__icon { filter: sepia(.4); }
 body.theme-parchemin .a-toast { background: #2a1a10; color: #f3e5c8; border: 1px solid #c6963f; }
+body.theme-parchemin .a-ico, body.theme-parchemin .a-panel__icon { display: none; }

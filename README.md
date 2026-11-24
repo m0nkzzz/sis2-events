@@ -23,8 +23,10 @@ sis2-events/
 │   └── admin.js / .css         → le dashboard (stats, liste, export…)
 ├── themes/
 │   └── parchemin/              → un thème = une mise en scène réutilisable
-│       ├── form.css / form.js  → accueil, animations, envoi, confirmation
-│       ├── music.js            → musique générée en direct (pas de fichier)
+│       ├── desk.js             → le bureau interactif (canvas) : physique, encre, bougie, feu, lumière, aides, envoi
+│       ├── art.js              → textures et objets dessinés par le code (bois, cuir, papier, plume, pigeon…)
+│       ├── audio.js            → musique au luth et bruitages, synthétisés en direct (aucun fichier)
+│       ├── form.css / form.js  → la lettre HTML, la signature, la copie conforme
 │       └── admin.css           → habillage du dashboard
 └── events/
     └── soiree-game-guilde/     → un dossier par événement
@@ -128,5 +130,6 @@ Classes générées pour les questions : `.q`, `.q--<type>`, `.q__label`, `.q__h
 - **Doublons** : si quelqu'un répond deux fois avec le même nom, le dashboard ne compte que sa réponse la plus récente. Tu peux décocher l'option pour tout voir.
 - **Brouillon** : ce qu'un collègue a commencé à remplir est gardé dans son navigateur s'il ferme l'onglet.
 - **Mails** : Gmail autorise environ 100 notifications par jour, largement assez pour une soirée.
-- **Musique** : elle ne démarre qu'après un premier clic (règle des navigateurs). Le bouton ♫ en haut à droite la coupe.
+- **Son** : musique et bruitages démarrent au premier geste (règle des navigateurs). Le bouton haut-parleur en bas à gauche coupe tout.
+- **Bougie** : éteinte, toute la page s'assombrit (c'est voulu). Un clic sur la bougie la rallume.
 - **Accessibilité** : tout se fait au clavier, et les animations sont raccourcies si l'appareil demande moins de mouvements.

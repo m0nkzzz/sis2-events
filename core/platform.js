@@ -440,7 +440,8 @@
     function sync() {
       b.classList.toggle('is-on', music.playing);
       b.setAttribute('aria-pressed', String(music.playing));
-      b.querySelector('.music-toggle__icon').textContent = music.playing ? labels.on : labels.off;
+      const ic = b.querySelector('.music-toggle__icon');
+      if (ic) ic.textContent = music.playing ? labels.on : labels.off;
       b.title = music.playing ? 'Couper la musique' : 'Lancer la musique';
     }
     b.addEventListener('click', function () { music.toggle(); sync(); });

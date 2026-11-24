@@ -17,7 +17,7 @@ window.EVENT = {
   numbering: 'roman',                  // 'roman' | 'number' | null
 
   // Musique : null = musique générée par le thème. Ou un fichier : { src: 'assets/musique.mp3', volume: 0.3 }
-  music: { volume: 0.32 },
+  music: { volume: 0.7 },
 
   /* ---------- Textes (lus par le thème) ---------- */
   texts: {
@@ -25,23 +25,19 @@ window.EVENT = {
     introKicker: 'Convocation de la Guilde',
     introTitle: 'Soirée Game de la Guilde',
     introLine: 'Une missive t’attend sur le bureau du scribe.',
-    introStepPaper: 'Prends un parchemin',
-    introStepQuill: 'Saisis la plume',
-    introHelpPaper: 'Clique sur la pile de parchemins',
-    introHelpQuill: 'Maintenant, trempe la plume dans l’encre',
+    // aides fléchées qui apparaissent après quelques essais ratés
+    hintStack: 'Attrape une feuille et fais-la glisser jusqu’au sous-main en cuir',
+    hintBlot: 'Pose la feuille ici, au milieu du sous-main — ailleurs, elle s’envole',
+    hintWell: 'Sors la plume de l’encrier et emmène-la jusqu’à ta feuille',
+    hintSheet: 'Lâche la plume sur la feuille pour commencer à écrire',
     salutation: 'Oyez, gentes dames et nobles damoiseaux !',
     subtitle: 'Confiez vos désirs à notre pigeon messager afin que Messire Pablo Ramalone orchestre nos prochaines réjouissances.',
     signatureHelp: 'Apposez votre nom au bas du parchemin',
     submit: 'Sceller et confier au pigeon',
-    animFold: 'Pliage du parchemin…',
-    animEnvelope: 'Mise sous enveloppe…',
-    animSeal: 'Le sceau de la Guilde est apposé…',
-    animPigeon: 'Le pigeon messager saisit la lettre…',
-    animFly: 'Envol vers Messire Pablo Ramalone !',
-    animWait: 'Le pigeon cherche le bon donjon…',
+    animWait: 'Le pigeon attend que la route vers le donjon soit libre…',
     successTitle: 'Missive envolée !',
     successLine: 'Ton pigeon a pris son envol, scellé du sceau de la Guilde SiS2.',
-    receiptTitle: 'Copie conforme de ta missive',
+    receiptTitle: 'Copie conforme',
     again: 'Rédiger une nouvelle missive',
     counter: 'missive(s) déjà reçue(s) par la Guilde',
     already: 'Tu as déjà envoyé une missive le {date}. Si tu as changé d’avis, rédiges-en une nouvelle : Messire Ramalone lira la plus récente.',
