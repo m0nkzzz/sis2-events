@@ -123,7 +123,8 @@
     tex.quill = Art.quill(L.quillL, dpr * 1.2);
     tex.well = Art.inkwell(130 * S, dpr);
     tex.candle = Art.candleBase(72 * S, dpr);
-    tex.die = Art.d20(26 * S, dpr);
+    tex.dice = [];
+    for (let n = 1; n <= 20; n++) tex.dice[n] = Art.d20(32 * S, dpr, n);
     tex.envPaper = Art.paper(300 * S * dpr, 200 * S * dpr, { seed: 77, scale: dpr, tone: [226, 211, 180], spots: 1, edge: 30, deckle: 0.2 });
     tex.stack = buildStack();
     tex.note = buildNote();
@@ -258,6 +259,17 @@
         o.state = 'placed'; o.tx = b.x + (R() - 0.5) * 6 * S; o.ty = b.y + (R() - 0.5) * 6 * S; o.ta = (R() - 0.5) * 0.06;
         if (stage.s === 'sheet') { stage.s = 'quill'; stage.idle = 0; hideHint(); }
       } else toPlane(o, speed);
+    } else if (o.kind === 'die') {
+      let spd = speed;
+      // simple clic : on le lance sur place dans une direction au hasard
+      if (pointer.moved < 8) { const a = R() * TAU, v = (260 + R() * 220) * S; o.vx = Math.cos(a) * v; o.vy = Math.sin(a) * v; spd = v; }
+      if (spd > 120 * S) {
+        o.rolling = true; o.tumble = 0; o.lastTumble = 0;
+        o.vz = 2 + Math.min(2.5, spd / (900 * S)); o.z = Math.max(o.z, 0.3);
+        o.va += (R() - 0.5) * 16;
+        sfx.dieShake();
+        if (dieLabel) dieLabel.classList.remove('is-on');
+      }
     } else if (o.kind === 'quill') {
       const nib = nibOf(o);
       if (Math.hypot(nib[0] - L.well.x, nib[1] - L.well.y) < 40 * S) { o.state = 'returning'; returnQuill(o); return; }
@@ -504,16 +516,18 @@
             if (o.kind === 'quill') {
               if (impact > 1.2) { o.vz = impact * 0.28; o.z = 0.001; sfx.quillTap(); }
               else { o.vz = 0; if (o.state === 'falling') landQuill(o); }
-            } else if (o.kind === 'die') { if (impact > 1) { o.vz = impact * 0.35; o.z = 0.001; sfx.thud(); } else o.vz = 0; }
+            } else if (o.kind === 'die') { if (impact > 0.6) { o.vz = impact * 0.42; o.z = 0.001; sfx.dieHit(impact / 4); o.va += (R() - 0.5) * 6; } else o.vz = 0; }
             else { o.vz = 0; sfx.paperDrop(); }
           }
           o.vx *= Math.exp(-0.9 * dt); o.vy *= Math.exp(-0.9 * dt); o.va *= Math.exp(-1.5 * dt);
         } else {
-          const fr = o.kind === 'quill' ? 9 : o.kind === 'die' ? 5 : 6.5;
+          const fr = o.kind === 'quill' ? 9 : o.kind === 'die' ? (o.rolling ? 1.7 : 5) : 6.5;
+          if (o.kind === 'die' && o.rolling) rollDie(o, dt);
           o.vx *= Math.exp(-fr * dt); o.vy *= Math.exp(-fr * dt); o.va *= Math.exp(-fr * 1.2 * dt);
           if (o.kind === 'quill' && o.state === 'falling' && Math.hypot(o.vx, o.vy) < 30 * S) landQuill(o);
         }
       }
+      if (o.kind === 'die' && o.rolling && o.z > 0) { o.tumble += Math.hypot(o.vx, o.vy) * dt / (22 * S) + dt * 6; if (Math.floor(o.tumble) !== o.lastTumble) { o.lastTumble = Math.floor(o.tumble); o.face = 1 + Math.floor(R() * 20); } }
       o.x += o.vx * dt; o.y += o.vy * dt; o.a += o.va * dt;
       // les bords du bureau renvoient les objets
       if (!o.held && o.state !== 'plane') {
@@ -525,6 +539,35 @@
       }
     }
     for (let i = objs.length - 1; i >= 0; i--) if (!objs[i].alive) objs.splice(i, 1);
+  }
+
+  /* --- le d20 roule sur la table : chaque bascule montre une autre face --- */
+  function rollDie(o, dt) {
+    const sp = Math.hypot(o.vx, o.vy);
+    o.tumble += sp * dt / (20 * S);
+    if (Math.floor(o.tumble) !== o.lastTumble) {
+      o.lastTumble = Math.floor(o.tumble);
+      o.face = 1 + Math.floor(R() * 20);
+      o.va += (R() - 0.5) * 4;
+      sfx.dieHit(Math.min(1, sp / (700 * S)));
+    }
+    if (sp < 22 * S) {
+      o.rolling = false; o.vx *= 0.3; o.vy *= 0.3; o.va *= 0.3;
+      o.face = 1 + Math.floor(R() * 20);            // le vrai tirage
+      sfx.dieHit(0.25);
+      showDieResult(o);
+    }
+  }
+  let dieLabel = null, dieT = null;
+  function showDieResult(o) {
+    if (!dieLabel) { dieLabel = document.createElement('div'); dieLabel.className = 'die-result'; dieLabel.setAttribute('role', 'status'); ui.appendChild(dieLabel); }
+    const n = o.face;
+    dieLabel.textContent = n === 20 ? T('dieCrit', '20 naturel ! Coup critique') : n === 1 ? T('dieFail', '1… Échec critique') : String(n);
+    dieLabel.className = 'die-result' + (n === 20 ? ' is-crit' : n === 1 ? ' is-fail' : '');
+    dieLabel.style.left = o.x + 'px'; dieLabel.style.top = (o.y - 34 * S) + 'px';
+    void dieLabel.offsetWidth; dieLabel.classList.add('is-on');
+    if (n === 20) { for (let i = 0; i < 3; i++) setTimeout(function () { sfx.tick(); }, i * 90); }
+    clearTimeout(dieT); dieT = setTimeout(function () { dieLabel.classList.remove('is-on'); }, n === 20 || n === 1 ? 2600 : 1600);
   }
 
   function landQuill(o) {
@@ -761,8 +804,11 @@
 
   function drawObj(x, o) {
     if (o.kind === 'die') {
-      const t = tex.die, w = t.img.width / t.k, h = t.img.height / t.k;
-      const d = function (c) { c.save(); c.translate(o.x, o.y); c.rotate(o.a); c.drawImage(t.img, -w / 2, -h / 2, w, h); c.restore(); };
+      const t = tex.dice[o.face || 20], w = t.img.width / t.k, h = t.img.height / t.k;
+      // pendant la roulade, la face « bascule » : léger écrasement + grossit en l'air
+      const tum = o.rolling ? Math.abs(Math.cos(o.tumble * Math.PI)) : 1;
+      const sx = 0.72 + 0.28 * tum, sc = 1 + o.z * 0.12;
+      const d = function (c) { c.save(); c.translate(o.x, o.y); c.rotate(o.a); c.scale(sx * sc, (0.9 + 0.1 * tum) * sc); c.drawImage(t.img, -w / 2, -h / 2, w, h); c.restore(); };
       shadow(x, o.x, o.y, o.z + 0.12, 1, d); d(x);
       return;
     }
@@ -969,6 +1015,12 @@
       c.fillStyle = g; c.beginPath(); c.arc(f.x, f.y, f.s, 0, TAU); c.fill();
     });
     actors.forEach(function (a) { if (a.fx) a.fx(c); });
+    objs.forEach(function (o) {
+      if (o.kind !== 'die' || o.rolling || o.face !== 20 || !dieLabel || !dieLabel.classList.contains('is-on')) return;
+      const g = c.createRadialGradient(o.x, o.y, 0, o.x, o.y, 40 * S);
+      g.addColorStop(0, 'rgba(255,210,120,' + (0.35 + 0.15 * Math.sin(now * 10)) + ')'); g.addColorStop(1, 'rgba(255,180,80,0)');
+      c.fillStyle = g; c.beginPath(); c.arc(o.x, o.y, 40 * S, 0, TAU); c.fill();
+    });
     c.globalCompositeOperation = 'source-over';
   }
 
@@ -1340,9 +1392,8 @@
       buildTextures();
       makeQuill();
       // le dé de la soirée game traîne sur le bureau
-      const die = body({ kind: 'die', x: mobile ? W * 0.12 : L.blot.x - L.blot.w / 2 - 90 * S, y: mobile ? H * 0.66 : H * 0.84, a: 0.3, w: 52 * S, h: 52 * S });
+      const die = body({ kind: 'die', face: 20, rolling: false, tumble: 0, x: mobile ? W * 0.12 : L.blot.x - L.blot.w / 2 - 90 * S, y: mobile ? H * 0.66 : H * 0.84, a: 0.3, w: 64 * S, h: 64 * S });
       die.I = 400 * S * S; objs.unshift(die);
-      die.draw = true;
       mode = 'intro';
       world.addEventListener('pointerdown', onDown);
       window.addEventListener('pointermove', onMove);

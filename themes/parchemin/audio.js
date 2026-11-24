@@ -214,7 +214,15 @@
     flap(strong) {
       burst({ type: 'bandpass', f: strong ? 1400 : 700, q: 0.8, dur: strong ? 0.05 : 0.09, attack: 0.003, vol: strong ? 0.32 : 0.14, noise: strong ? 'white' : 'pink' });
     },
-    thud() { burst({ type: 'lowpass', f: 180, dur: 0.12, vol: 0.3, noise: 'brown' }); }
+    thud() { burst({ type: 'lowpass', f: 180, dur: 0.12, vol: 0.3, noise: 'brown' }); },
+    /** Dé en résine sur le bois : clic sec + petite résonance de la table. */
+    dieHit(v) {
+      v = Math.max(0.15, Math.min(1, v || 0.5));
+      burst({ f: 2400 + R() * 1800, q: 5, dur: 0.035, vol: 0.32 * v });
+      burst({ type: 'highpass', f: 5000, dur: 0.015, vol: 0.18 * v });
+      burst({ type: 'lowpass', f: 220, dur: 0.07, vol: 0.2 * v, noise: 'brown' });
+    },
+    dieShake() { for (let i = 0; i < 4; i++) burst({ f: 3000 + R() * 2000, q: 4, dur: 0.02, vol: 0.06, delay: i * 0.045 + R() * 0.02 }); }
   };
 
   /* ---------- musique ---------- */

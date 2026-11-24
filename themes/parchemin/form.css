@@ -172,3 +172,10 @@ textarea.q__input { resize: vertical; min-height: 116px; border: 0; line-height:
   .q__options--compact { grid-template-columns: repeat(2, 1fr); }
   .hint { max-width: 200px; font-size: 1rem; }
 }
+
+/* résultat du d20 */
+.die-result { position: absolute; transform: translate(-50%, -50%); margin: 0; white-space: nowrap; pointer-events: none;
+  font: 2.1rem var(--f-body); color: #f3e2bc; text-shadow: 0 1px 2px #000, 0 0 12px rgba(0, 0, 0, .9); opacity: 0; transition: opacity .4s, transform .9s cubic-bezier(.2, .8, .3, 1); }
+.die-result.is-on { opacity: 1; transform: translate(-50%, -110%); }
+.die-result.is-crit { color: #f6cf6a; font-size: 1.6rem; text-shadow: 0 1px 2px #000, 0 0 14px rgba(255, 190, 80, .6); }
+.die-result.is-fail { color: #e0a090; font-size: 1.5rem; font-style: italic; }

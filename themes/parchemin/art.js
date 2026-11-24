@@ -366,7 +366,8 @@
   }
 
   /* ---------- dé à 20 faces en résine ---------- */
-  function d20(R, dpr) {
+  function d20(R, dpr, top, seed) {
+    top = top || 20;
     const k = dpr || 2;
     const c = canvas(R * 2.4 * k, R * 2.4 * k), x = c.getContext('2d');
     x.scale(k, k);
@@ -392,9 +393,13 @@
     });
     x.fillStyle = 'rgba(255,255,255,.28)'; x.beginPath(); x.ellipse(cx - R * 0.15, cy - R * 0.25, R * 0.16, R * 0.06, -0.5, 0, 7); x.fill();
     x.fillStyle = '#e9cf8f'; x.font = '700 ' + (R * 0.38) + 'px "IM Fell English", Georgia, serif'; x.textAlign = 'center'; x.textBaseline = 'middle';
-    x.fillText('20', cx, cy + R * 0.04);
+    x.fillText(String(top), cx, cy + R * 0.04);
+    if (top === 6 || top === 9) { x.fillRect(cx - R * 0.12, cy + R * 0.2, R * 0.24, R * 0.035); }
+    // trois faces voisines, numéros différents du dessus
+    const N = Noise(seed || top * 7 + 3), others = [];
+    while (others.length < 3) { const v = 1 + Math.floor(N.rnd() * 20); if (v !== top && others.indexOf(v) < 0) others.push(v); }
     x.font = '700 ' + (R * 0.2) + 'px Georgia, serif'; x.globalAlpha = 0.55;
-    [['14', 1], ['8', 2], ['2', 3]].forEach(function (n) {
+    [[String(others[0]), 1], [String(others[1]), 2], [String(others[2]), 3]].forEach(function (n) {
       const f = faces[n[1] * 3 - 2]; const mx = (f[0][0] + f[1][0] + f[2][0]) / 3, my = (f[0][1] + f[1][1] + f[2][1]) / 3;
       x.fillText(n[0], mx, my);
     });
