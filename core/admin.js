@@ -9,7 +9,7 @@
 
   const EV = window.EVENT;
   const params = new URLSearchParams(location.search);
-  const DEMO = !EV.endpoint || params.has('demo');
+  const DEMO = params.has('demo');                // fausses données uniquement si demandé explicitement
   const KEY_STORE = 'sis2:admin-key';
   const KEY_SEEN = 'sis2:' + EV.slug + ':admin-seen';
   const REFRESH_MS = 60000;
@@ -543,6 +543,9 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     buildShell();
-    if (DEMO || LS.get(KEY_STORE)) startApp(); else showGate();
+    if (DEMO) startApp();
+    else if (!EV.endpoint) showGate('Backend non configuré : renseigne « endpoint » dans config.js (ou ajoute ?demo à l’URL pour voir des données de test).');
+    else if (LS.get(KEY_STORE)) startApp();
+    else showGate();
   });
 })();
