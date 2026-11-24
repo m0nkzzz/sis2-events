@@ -103,6 +103,8 @@ Les anciens événements restent en ligne et gardent leurs réponses. Pour ferme
 
 ## Créer un nouveau thème
 
+Le niveau d'exigence attendu (expérience, physique, son, rendu, envoi) est décrit dans [`THEMES.md`](THEMES.md) : c'est la référence pour tout nouveau thème.
+
 Un thème, c'est un dossier `themes/<nom>/` qui contient au minimum :
 
 - `form.js` : construit toute la page (accueil, lettre, animation, confirmation) en s'appuyant sur `window.Platform` ;
