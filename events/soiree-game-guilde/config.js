@@ -10,7 +10,7 @@ window.EVENT = {
 
   // URL du backend Google (Apps Script → Déployer → URL de l'application web).
   // Vide = mode aperçu : le formulaire marche mais rien n'est envoyé.
-  endpoint: '',
+  endpoint: 'https://script.google.com/macros/s/AKfycbwK7HMoyrPOj6qF2F6uLEX2xVXR_4e3R65By0cr3ewyjtqO0WVBmMaAVcuJ77frU9UHxA/exec',
 
   deadline: null,                      // ex. '2026-11-26T23:59' → formulaire fermé après
   expected: null,                      // ex. 25 → affiche « sur 25 attendu·e·s » dans le dashboard
