@@ -37,7 +37,10 @@ sis2-events/
 ```
 
 **Ce qui est public :** le code (le dépôt GitHub est public, c'est obligatoire pour GitHub Pages gratuit).
-**Ce qui reste privé :** les réponses (dans ton Google Sheet) et la clé admin (dans les propriétés du script Google). Sans la clé, le dashboard ne montre rien.
+**Ce qui reste privé :** les réponses (dans ton Google Sheet), ton adresse mail et la clé admin (dans les propriétés du script Google). Sans la clé, le dashboard ne montre rien.
+**Visible mais sans risque :** l'URL du backend dans `config.js`. Le formulaire en a besoin pour envoyer les réponses ; elle permet seulement d'ajouter une réponse, jamais de les lire. En cas de spam, ferme le formulaire avec `deadline`, ou crée un nouveau déploiement Apps Script et remplace l'URL.
+
+> ⚠️ Ne mets jamais dans le dépôt : la clé admin, ton adresse mail, ni un export des réponses (CSV).
 
 ---
 

@@ -1115,7 +1115,7 @@
       x.stroke();
     }
     x.fillStyle = 'rgba(30,14,16,.9)';
-    x.font = (h * 0.075) + 'px "Pinyon Script", "Great Vibes", cursive';
+    x.font = (h * 0.075) + 'px "Pinyon Script", cursive';
     x.textAlign = 'right';
     x.fillText(name || '', w * 0.88, h * 0.9);
     return c;
@@ -1407,7 +1407,6 @@
     get mode() { return mode; },
     /** Passe l'accueil : la feuille est posée et la plume rangée. */
     skip() { stage.s = 'done'; hideHint(); },
-    _debug: { nib: function () { return quill ? nibOf(quill) : null; }, flame: flamePos, objs: objs },
     playSend: playSend,
     caption: caption,
     toggleCandle: toggleCandle,

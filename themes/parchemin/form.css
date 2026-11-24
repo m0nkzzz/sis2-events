@@ -8,10 +8,9 @@
   --ink-2: #4a3325;
   --ink-3: #75594a;
   --rubric: #8c1f17;
-  --cream: #efdcb4;
   --f-body: 'IM Fell English', 'EB Garamond', Georgia, serif;
   --f-sc: 'IM Fell English SC', 'IM Fell English', Georgia, serif;
-  --f-script: 'Pinyon Script', 'Great Vibes', cursive;
+  --f-script: 'Pinyon Script', cursive;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; min-height: 100%; }
